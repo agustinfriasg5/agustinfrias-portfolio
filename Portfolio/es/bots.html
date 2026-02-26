@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bots Inteligentes | Agustín Frías</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/bots.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="index.html" class="logo">
+            <span style="font-size: 1.5rem;">AF</span>
+            Agustín Frías
+        </a>
+        <a href="index.html" class="back-link">
+            <span>←</span>
+            Volver al inicio
+        </a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span>🤖</span>
+                Automatización Inteligente
+            </div>
+            <h1>
+                Bots que <span>trabajan</span><br>
+                24/7 por vos
+            </h1>
+            <p>
+                Desde atención al cliente hasta ventas automáticas. 
+                Implemento bots de WhatsApp y web que escalan tu negocio sin aumentar personal.
+            </p>
+        </div>
+    </section>
+
+    <!-- Bot Types -->
+    <section class="bot-types">
+        <h2 class="section-title reveal">Tipos de Bots Disponibles</h2>
+        
+        <div class="bots-grid">
+            <div class="bot-card reveal">
+                <div class="bot-icon">💬</div>
+                <h3>Bot de Atención al Cliente</h3>
+                <p>Responde preguntas frecuentes automáticamente. Disponible 24/7 sin descanso.</p>
+                
+                <div class="bot-meta">
+                    <span class="meta-tag">WhatsApp</span>
+                    <span class="meta-tag">Web</span>
+                    <span class="meta-tag">Instagram</span>
+                </div>
+
+                <ul class="bot-features">
+                    <li>Respuestas instantáneas 24/7</li>
+                    <li>Base de conocimiento personalizable</li>
+                    <li>Derivación a humano cuando es necesario</li>
+                    <li>Historial de conversaciones</li>
+                    <li>Multiples idiomas</li>
+                </ul>
+
+                <div class="bot-price">Desde $300 USD</div>
+                <div class="bot-price-note">+ $50/mes mantenimiento</div>
+            </div>
+
+            <div class="bot-card reveal">
+                <div class="bot-icon" style="background: var(--gradient-2);">🛒</div>
+                <h3>Bot de Ventas y E-commerce</h3>
+                <p>Catálogo de productos, consultas de stock, y cierre de ventas automático.</p>
+                
+                <div class="bot-meta">
+                    <span class="meta-tag">WhatsApp Business</span>
+                    <span class="meta-tag">MercadoPago</span>
+                </div>
+
+                <ul class="bot-features">
+                    <li>Catálogo interactivo con fotos</li>
+                    <li>Consulta de stock en tiempo real</li>
+                    <li>Carrito de compras por WhatsApp</li>
+                    <li>Integración con MercadoPago</li>
+                    <li>Confirmaciones y seguimiento de envíos</li>
+                </ul>
+
+                <div class="bot-price">Desde $600 USD</div>
+                <div class="bot-price-note">+ $80/mes mantenimiento</div>
+            </div>
+
+            <div class="bot-card reveal">
+                <div class="bot-icon" style="background: var(--gradient-3);">📅</div>
+                <h3>Bot de Turnos y Agendamiento</h3>
+                <p>Reserva de citas, recordatorios automáticos, y gestión de calendario.</p>
+                
+                <div class="bot-meta">
+                    <span class="meta-tag">Google Calendar</span>
+                    <span class="meta-tag">WhatsApp</span>
+                </div>
+
+                <ul class="bot-features">
+                    <li>Reserva de turnos en tiempo real</li>
+                    <li>Recordatorios automáticos (24hs y 1hs antes)</li>
+                    <li>Cancelaciones y reprogramación</li>
+                    <li>Sincronización con tu calendario</li>
+                    <li>Lista de espera automática</li>
+                </ul>
+
+                <div class="bot-price">Desde $500 USD</div>
+                <div class="bot-price-note">+ $60/mes mantenimiento</div>
+            </div>
+
+            <div class="bot-card reveal">
+                <div class="bot-icon" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);">🎯</div>
+                <h3>Bot de Captación de Leads</h3>
+                <p>Califica prospectos automáticamente y los envía a tu CRM o Excel.</p>
+                
+                <div class="bot-meta">
+                    <span class="meta-tag">Facebook Ads</span>
+                    <span class="meta-tag">Landing Pages</span>
+                </div>
+
+                <ul class="bot-features">
+                    <li>Formularios conversacionales</li>
+                    <li>Calificación automática de leads (frío/caliente)</li>
+                    <li>Integración con Google Sheets/Excel</li>
+                    <li>Seguimiento automático por email/WhatsApp</li>
+                    <li>Métricas de conversión</li>
+                </ul>
+
+                <div class="bot-price">Desde $400 USD</div>
+                <div class="bot-price-note">+ $50/mes mantenimiento</div>
+            </div>
+
+            <div class="bot-card reveal">
+                <div class="bot-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #ec4899 100%);">🎉</div>
+                <h3>Bot para Eventos y Boliches</h3>
+                <p>Lista VIP, reserva de mesas, control de acceso con QR.</p>
+                
+                <div class="bot-meta">
+                    <span class="meta-tag">QR Codes</span>
+                    <span class="meta-tag">Pagos</span>
+                </div>
+
+                <ul class="bot-features">
+                    <li>Registro a lista VIP</li>
+                    <li>Reserva de mesas con seña</li>
+                    <li>Generación de códigos QR únicos</li>
+                    <li>Validación en puerta desde celular</li>
+                    <li>Estadísticas de asistencia</li>
+                </ul>
+
+                <div class="bot-price">Desde $800 USD</div>
+                <div class="bot-price-note">+ $100/mes mantenimiento</div>
+            </div>
+
+            <div class="bot-card reveal">
+                <div class="bot-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);">🏠</div>
+                <h3>Bot Inmobiliario</h3>
+                <p>Tasaciones automáticas, filtro de propiedades, y seguimiento de interesados.</p>
+                
+                <div class="bot-meta">
+                    <span class="meta-tag">Inmobiliarias</span>
+                    <span class="meta-tag">CRM</span>
+                </div>
+
+                <ul class="bot-features">
+                    <li>Filtro de propiedades por zona/precio</li>
+                    <li>Formulario de tasación automatizado</li>
+                    <li>Agendamiento de visitas</li>
+                    <li>Base de datos de interesados</li>
+                    <li>Alertas de nuevas propiedades</li>
+                </ul>
+
+                <div class="bot-price">Desde $600 USD</div>
+                <div class="bot-price-note">+ $80/mes mantenimiento</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="use-cases">
+        <h2 class="section-title reveal">Casos de Éxito</h2>
+        
+        <div class="use-cases-grid">
+            <div class="use-case-card reveal">
+                <div class="use-case-header">
+                    <div class="use-case-icon">🏥</div>
+                    <h3>Clínica de Estética</h3>
+                </div>
+                <p>
+                    Implementamos un bot de agendamiento que reduce las llamadas telefónicas en 70%. 
+                    Los clientes reservan turnos a cualquier hora y reciben recordatorios automáticos, 
+                    reduciendo el ausentismo del 30% al 8%.
+                </p>
+                <div class="use-case-stats">
+                    <div class="use-stat">
+                        <span class="use-stat-number">70%</span>
+                        <span class="use-stat-label">Menos llamadas</span>
+                    </div>
+                    <div class="use-stat">
+                        <span class="use-stat-number">-22%</span>
+                        <span class="use-stat-label">Ausentismo</span>
+                    </div>
+                    <div class="use-stat">
+                        <span class="use-stat-number">24/7</span>
+                        <span class="use-stat-label">Disponible</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-card reveal">
+                <div class="use-case-header">
+                    <div class="use-case-icon" style="background: var(--gradient-3);">🛍️</div>
+                    <h3>Tienda de Ropa Online</h3>
+                </div>
+                <p>
+                    Bot de ventas por WhatsApp que muestra catálogo, consulta stock y procesa pagos. 
+                    La tienda pasó de atender 20 consultas diarias a 200+ sin contratar más personal.
+                </p>
+                <div class="use-case-stats">
+                    <div class="use-stat">
+                        <span class="use-stat-number">10x</span>
+                        <span class="use-stat-label">Más consultas</span>
+                    </div>
+                    <div class="use-stat">
+                        <span class="use-stat-number">40%</span>
+                        <span class="use-stat-label">Más ventas</span>
+                    </div>
+                    <div class="use-stat">
+                        <span class="use-stat-number">0</span>
+                        <span class="use-stat-label">Personal nuevo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-card reveal">
+                <div class="use-case-header">
+                    <div class="use-case-icon" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);">🎓</div>
+                    <h3>Instituto de Inglés</h3>
+                </div>
+                <p>
+                    Sistema de inscripción automatizado que captura leads de Facebook Ads, 
+                    responde dudas frecuentes y agenda clases de prueba. El equipo de ventas 
+                    solo atiende prospectos calificados.
+                </p>
+                <div class="use-case-stats">
+                    <div class="use-stat">
+                        <span class="use-stat-number">3x</span>
+                        <span class="use-stat-label">Leads calificados</span>
+                    </div>
+                    <div class="use-stat">
+                        <span class="use-stat-number">50%</span>
+                        <span class="use-stat-label">Menos tiempo</span>
+                    </div>
+                    <div class="use-stat">
+                        <span class="use-stat-number">+35%</span>
+                        <span class="use-stat-label">Matriculaciones</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-card reveal">
+                <div class="use-case-header">
+                    <div class="use-case-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #ec4899 100%);">🔧</div>
+                    <h3>Servicio Técnico 24hs</h3>
+                </div>
+                <p>
+                    Bot de emergencias para cerrajería. Los clientes solicitan servicio por WhatsApp, 
+                    el bot cotiza automáticamente según el problema y envía la ubicación al técnico más cercano.
+                </p>
+                <div class="use-case-stats">
+                    <div class="use-stat">
+                        <span class="use-stat-number">5min</span>
+                        <span class="use-stat-label">Respuesta promedio</span>
+                    </div>
+                    <div class="use-stat">
+                        <span class="use-stat-number">+60%</span>
+                        <span class="use-stat-label">Servicios/día</span>
+                    </div>
+                    <div class="use-stat">
+                        <span class="use-stat-number">24/7</span>
+                        <span class="use-stat-label">Atención</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="tech-stack">
+        <h2 class="section-title reveal">Tecnologías que Utilizo</h2>
+        
+        <div class="tech-grid reveal">
+            <div class="tech-item">
+                <span class="tech-icon">📱</span>
+                <span class="tech-name">WhatsApp Business API</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-icon">💻</span>
+                <span class="tech-name">Node.js</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-icon">🗄️</span>
+                <span class="tech-name">SQLite / PostgreSQL</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-icon">☁️</span>
+                <span class="tech-name">Google Cloud</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-icon">🤖</span>
+                <span class="tech-name">Dialogflow / NLP</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-icon">💳</span>
+                <span class="tech-name">MercadoPago</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-icon">📊</span>
+                <span class="tech-name">Google Sheets API</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-icon">🔒</span>
+                <span class="tech-name">Webhooks Seguros</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2 class="reveal">¿Listo para automatizar?</h2>
+        <p class="reveal">
+            Cada minuto que pasás respondiendo mensajes repetitivos es dinero que no estás ganando. 
+            Dejá que un bot trabaje por vos.
+        </p>
+        <a href="index.html#contacto" class="cta-button reveal">
+            Consultar por un Bot
+            <span>→</span>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            &copy; 2024 Agustín Frías | 
+            <a href="index.html">Volver al inicio</a> | 
+            San Miguel de Tucumán, Argentina
+        </p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/cursor.js"></script>
+    <script src="js/bots.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+agustinfrias-portfolio/
+├── README.md
+├── .gitignore
+├── LICENSE (opcional)
+│
+├── es/                          
+│   ├── index.html              
+│   ├── css/
+│   │   └── styles.css
+│   └── js/
+│       └── main.js
+│
+├── en/                          
+│   ├── index.html
+│   ├── css/
+│   │   └── styles.css
+│   └── js/
+│       └── main.js
+│
+├── shared/                     
+│   ├── screenshots/
+│   │   ├── elgart-propiedades.jpg
+│   │   ├── norte-salud.jpg
+│   │   ├── federalismo-libertad.jpg
+│   │   └── reservas-vip.jpg
+│   ├── logos/
+│   │   ├── elgart-logo.png
+│   │   └── norte-salud-logo.png
+│   └── cv/
+│       ├── cv-agustin-frias-es.pdf
+│       └── cv-agustin-frias-en.pdf
+│
+└── pages/                    
+    ├── elgart-propiedades.html
+    ├── norte-salud/
+    └── reservas-vip/

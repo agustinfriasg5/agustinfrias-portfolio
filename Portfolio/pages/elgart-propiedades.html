@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elgart Propiedades | San Miguel de Tucumán</title>
+    <meta name="description" content="Experiencia inmobiliaria premium en San Miguel de Tucumán. 25 años de trayectoria.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Colores corporativos Elgart - SIEMPRE presentes */
+            --elgart-blue: #1a6ba0;
+            --elgart-lime: #c4d600;
+            --elgart-blue-dark: #124a70;
+            --elgart-blue-light: #2e8bc4;
+            
+            /* Neutros sofisticados */
+            --white: #ffffff;
+            --cream: #f8f9fa;
+            --gray-100: #f1f3f4;
+            --gray-200: #e8eaed;
+            --gray-600: #5f6368;
+            --gray-800: #3c4043;
+            --dark: #1a1a2e;
+            
+            /* Acento tucumano - SOLO en sección específica */
+            --tucuman-terracota: #c65d3b;
+            --tucuman-sand: #d4a574;
+            
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--white);
+            color: var(--gray-800);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor - Azul corporativo */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--elgart-blue);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.2s ease, background 0.2s;
+        }
+
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            background: rgba(26, 107, 160, 0.1);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor.hover {
+            transform: scale(2);
+            background: var(--elgart-lime);
+            border-color: var(--elgart-lime);
+        }
+
+        /* Loader - Colores corporativos */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--elgart-blue);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            color: var(--elgart-lime);
+            letter-spacing: 0.3em;
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        .loader-bar {
+            width: 200px;
+            height: 2px;
+            background: rgba(196, 214, 0, 0.2);
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--elgart-lime);
+            transition: width 0.3s ease;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.6; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        /* Navigation - Blanco con azul */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 4rem;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(26, 107, 160, 0.1);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-logo-text {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--white);
+            letter-spacing: 0.1em;
+            transition: color 0.4s;
+        }
+
+        .nav.scrolled .nav-logo-text {
+            color: var(--elgart-blue);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-link {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            position: relative;
+            padding: 0.5rem 0;
+            font-weight: 500;
+            transition: color 0.4s;
+        }
+
+        .nav.scrolled .nav-link {
+            color: var(--gray-800);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--elgart-lime);
+            transition: width 0.4s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero - Azul corporativo dominante */
+        #hero-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+            background: linear-gradient(135deg, var(--elgart-blue) 0%, var(--elgart-blue-dark) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 1;
+            padding: 0 2rem;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: var(--elgart-lime);
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            font-weight: 600;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 400;
+            line-height: 1;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(40px);
+            color: var(--white);
+        }
+
+        .hero-title span {
+            display: block;
+            font-style: italic;
+            color: var(--elgart-lime);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            max-width: 600px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            font-weight: 300;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 3rem;
+            background: var(--elgart-lime);
+            color: var(--elgart-blue-dark);
+            text-decoration: none;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-weight: 600;
+            transition: all 0.4s ease;
+            opacity: 0;
+            border: 2px solid var(--elgart-lime);
+        }
+
+        .hero-cta:hover {
+            background: transparent;
+            color: var(--elgart-lime);
+            transform: translateY(-2px);
+        }
+
+        .hero-cta svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.4s ease;
+        }
+
+        .hero-cta:hover svg {
+            transform: translateX(10px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--elgart-lime), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); transform-origin: top; }
+            51% { transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+
+        /* Sections General */
+        section {
+            position: relative;
+            z-index: 2;
+            background: var(--white);
+        }
+
+        /* Manifesto Section - Fondo blanco, acento azul */
+        .manifesto {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10rem 2rem;
+            position: relative;
+            background: var(--white);
+        }
+
+        .manifesto-text {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            text-align: center;
+            max-width: 900px;
+            line-height: 1.6;
+            color: var(--gray-800);
+        }
+
+        .manifesto-text .highlight {
+            color: var(--elgart-blue);
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        /* Properties Gallery - Fondo gris muy claro */
+        .properties-section {
+            padding: 10rem 0;
+            overflow: hidden;
+            background: var(--gray-100);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 6rem;
+            padding: 0 2rem;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: var(--elgart-blue);
+            margin-bottom: 1.5rem;
+            display: block;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 400;
+            color: var(--elgart-blue-dark);
+        }
+
+        /* Horizontal Scroll Gallery */
+        .gallery-wrapper {
+            position: relative;
+            height: 100vh;
+        }
+
+        .gallery-container {
+            display: flex;
+            gap: 4rem;
+            padding: 0 4rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            align-items: center;
+            will-change: transform;
+        }
+
+        .property-artwork {
+            flex-shrink: 0;
+            width: 70vw;
+            max-width: 1000px;
+            height: 70vh;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background: var(--white);
+            box-shadow: 0 25px 80px rgba(26, 107, 160, 0.15);
+            border-radius: 4px;
+        }
+
+        .property-artwork::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(26, 107, 160, 0.9) 0%, transparent 60%);
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        .property-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.05);
+            transition: all 0.8s ease;
+        }
+
+        .property-artwork:hover .property-image {
+            transform: scale(1.05);
+        }
+
+        .property-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 3rem;
+            z-index: 2;
+            transform: translateY(20px);
+            opacity: 0.9;
+            transition: all 0.4s ease;
+        }
+
+        .property-artwork:hover .property-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .property-number {
+            font-family: var(--font-display);
+            font-size: 6rem;
+            color: var(--elgart-lime);
+            opacity: 0.4;
+            position: absolute;
+            top: 2rem;
+            right: 3rem;
+            z-index: 2;
+            font-weight: 600;
+        }
+
+        .property-type {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--elgart-lime);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .property-name {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .property-details {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .property-price {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            color: var(--elgart-blue-dark);
+            z-index: 2;
+            background: var(--elgart-lime);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 2px;
+        }
+
+        /* Experience Section - AQUÍ usamos el color tucumano terracota como acento */
+        .experience {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            background: var(--white);
+        }
+
+        .experience-visual {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .experience-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8);
+        }
+
+        .experience-content {
+            padding: 6rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(to bottom, var(--white) 0%, var(--cream) 100%);
+        }
+
+        .experience-item {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--gray-200);
+            opacity: 0.3;
+            transition: all 0.6s ease;
+        }
+
+        .experience-item.active {
+            opacity: 1;
+        }
+
+        .experience-item.active .experience-number {
+            color: var(--tucuman-terracota); /* Acento tucumano solo aquí */
+        }
+
+        .experience-number {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            color: var(--elgart-blue);
+            margin-bottom: 1rem;
+            transition: color 0.6s;
+            font-weight: 600;
+        }
+
+        .experience-title {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--elgart-blue-dark);
+            font-weight: 600;
+        }
+
+        .experience-desc {
+            color: var(--gray-600);
+            line-height: 1.8;
+        }
+
+        /* Contact Section - Azul corporativo de nuevo */
+        .contact-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem;
+            position: relative;
+            background: linear-gradient(135deg, var(--elgart-blue) 0%, var(--elgart-blue-dark) 100%);
+        }
+
+        .contact-container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .contact-section .section-label {
+            color: var(--elgart-lime);
+        }
+
+        .contact-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 2rem;
+            color: var(--white);
+            font-weight: 400;
+        }
+
+        .contact-section p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 1.5rem 0;
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--elgart-lime);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .form-label {
+            position: absolute;
+            left: 0;
+            top: 1.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .form-input:focus + .form-label,
+        .form-input:not(:placeholder-shown) + .form-label {
+            top: -0.5rem;
+            font-size: 0.75rem;
+            color: var(--elgart-lime);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .submit-btn {
+            justify-self: center;
+            padding: 1.5rem 4rem;
+            background: var(--elgart-lime);
+            color: var(--elgart-blue-dark);
+            border: none;
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 2rem;
+        }
+
+        .submit-btn:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer - Azul oscuro */
+        footer {
+            padding: 4rem;
+            background: var(--elgart-blue-dark);
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            color: var(--white);
+        }
+
+        .footer-brand {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--elgart-lime);
+        }
+
+        .footer-tagline {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer-col h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--elgart-lime);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-col a {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col a:hover {
+            color: var(--elgart-lime);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .cursor, .cursor-follower {
+                display: none;
+            }
+            
+            body {
+                cursor: auto;
+            }
+
+            .nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .experience {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-visual {
+                position: relative;
+                height: 50vh;
+            }
+
+            .experience-content {
+                padding: 3rem 2rem;
+            }
+
+            .property-artwork {
+                width: 85vw;
+                height: 60vh;
+            }
+
+            footer {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 3rem 2rem;
+            }
+        }
+
+        /* Grain Overlay sutil */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.02;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Grain Overlay -->
+    <div class="grain"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-logo">ELGART</div>
+        <div class="loader-bar">
+            <div class="loader-progress" id="loaderProgress"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <a href="#" class="nav-logo">
+            <!-- Usar el logo real aquí -->
+            <img src="assets/elgart-logo-white.png" alt="Elgart Propiedades" id="navLogo">
+            <span class="nav-logo-text" style="display: none;">ELGART</span>
+        </a>
+        <div class="nav-menu">
+            <a href="#propiedades" class="nav-link">Obras</a>
+            <a href="#experiencia" class="nav-link">Experiencia</a>
+            <a href="#contacto" class="nav-link">Contacto</a>
+        </div>
+    </nav>
+
+    <!-- Hero with Three.js -->
+    <canvas id="hero-canvas"></canvas>
+    
+    <div class="hero-content">
+        <div class="hero-eyebrow">Est. 1999 — San Miguel de Tucumán</div>
+        <h1 class="hero-title">
+            Arquitectura
+            <span>que trasciende</span>
+        </h1>
+        <p class="hero-subtitle">
+            25 años conectando familias con espacios extraordinarios en Tucumán. 
+            Cada propiedad es una promesa de vida bien vivida.
+        </p>
+        <a href="#propiedades" class="hero-cta">
+            <span>Descubrir colección</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+        <div class="scroll-indicator">
+            <span style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--elgart-lime);">Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </div>
+
+    <!-- Manifesto -->
+    <section class="manifesto">
+        <p class="manifesto-text">
+            En Elgart no vendemos simples 
+            <span class="highlight">inmuebles</span>, 
+            curamos <span class="highlight">legados</span> familiares. 
+            Espacios donde el azul profundo del cielo tucumano se encuentra 
+            con el verde vibrante de nuestra tierra.
+        </p>
+    </section>
+
+    <!-- Properties Gallery -->
+    <section class="properties-section" id="propiedades">
+        <div class="section-header">
+            <span class="section-label">Portfolio 2024</span>
+            <h2 class="section-title">Propiedades seleccionadas</h2>
+        </div>
+
+        <div class="gallery-wrapper" id="galleryWrapper">
+            <div class="gallery-container" id="galleryContainer">
+                
+                <!-- Property 1 -->
+                <article class="property-artwork">
+                    <span class="property-number">01</span>
+                    <span class="property-price">USD 180.000</span>
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" alt="Casa Barrio Norte" class="property-image">
+                    <div class="property-info">
+                        <div class="property-type">Residencia Premium</div>
+                        <h3 class="property-name">Casa Santiago</h3>
+                        <div class="property-details">
+                            <span>Barrio Norte</span>
+                            <span>280 m²</span>
+                            <span>4 dormitorios</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Property 2 -->
+                <article class="property-artwork">
+                    <span class="property-number">02</span>
+                    <span class="property-price">USD 250.000</span>
+                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80" alt="Casa Yerba Buena" class="property-image">
+                    <div class="property-info">
+                        <div class="property-type">Residencia Exclusiva</div>
+                        <h3 class="property-name">Villa Aconquija</h3>
+                        <div class="property-details">
+                            <span>Yerba Buena</span>
+                            <span>350 m²</span>
+                            <span>3 dormitorios</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Property 3 -->
+                <article class="property-artwork">
+                    <span class="property-number">03</span>
+                    <span class="property-price">USD 95.000</span>
+                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80" alt="Departamento Centro" class="property-image">
+                    <div class="property-info">
+                        <div class="property-type">Apartamento Urbano</div>
+                        <h3 class="property-name">Edificio 25 de Mayo</h3>
+                        <div class="property-details">
+                            <span>Centro</span>
+                            <span>75 m²</span>
+                            <span>2 dormitorios</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Property 4 -->
+                <article class="property-artwork">
+                    <span class="property-number">04</span>
+                    <span class="property-price">USD 320.000</span>
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80" alt="Casa Zona Norte" class="property-image">
+                    <div class="property-info">
+                        <div class="property-type">Residencia de Autor</div>
+                        <h3 class="property-name">Casa Marcos Paz</h3>
+                        <div class="property-details">
+                            <span>Zona Norte</span>
+                            <span>420 m²</span>
+                            <span>5 dormitorios</span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section - AQUÍ va el color terracota tucumano -->
+    <section class="experience" id="experiencia">
+        <div class="experience-visual">
+            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80" alt="Experiencia Elgart" class="experience-image" id="experienceImage">
+        </div>
+        <div class="experience-content">
+            <div class="experience-item" data-index="0">
+                <div class="experience-number">25</div>
+                <h3 class="experience-title">Años de trayectoria</h3>
+                <p class="experience-desc">
+                    Desde 1999, hemos sido testigos del crecimiento de San Miguel de Tucumán. 
+                    Conocemos cada barrio, cada calle, cada historia que hace única a esta provincia.
+                </p>
+            </div>
+            <div class="experience-item" data-index="1">
+                <div class="experience-number">12</div>
+                <h3 class="experience-title">Corredores matriculados</h3>
+                <p class="experience-desc">
+                    Nuestro equipo combina experiencia local con visión internacional. 
+                    Cada asesoramiento está respaldado por matrícula CPI y años de especialización.
+                </p>
+            </div>
+            <div class="experience-item" data-index="2">
+                <div class="experience-number">850</div>
+                <h3 class="experience-title">Familias felices</h3>
+                <p class="experience-desc">
+                    Más de ochocientas familias encontraron su hogar con nosotros. 
+                    Cada operación es una historia de confianza construida paso a paso.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact - Volvemos al azul corporativo -->
+    <section class="contact-section" id="contacto">
+        <div class="contact-container">
+            <span class="section-label">Iniciar conversación</span>
+            <h2 class="contact-title">Conversemos sobre tu próximo hogar</h2>
+            <p style="max-width: 500px; margin: 0 auto; line-height: 1.8;">
+                Ya sea que busques comprar, vender o necesites una tasación profesional, 
+                estamos aquí para ayudarte.
+            </p>
+            
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder=" " required>
+                    <label class="form-label">Nombre completo</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-input" placeholder=" " required>
+                    <label class="form-label">Email</label>
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-input" placeholder=" ">
+                    <label class="form-label">Teléfono</label>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-input" placeholder=" " rows="3" style="resize: none;"></textarea>
+                    <label class="form-label">¿Qué estás buscando?</label>
+                </div>
+                <button type="submit" class="submit-btn">Enviar mensaje</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div>
+            <div class="footer-brand">Elgart Propiedades</div>
+            <p class="footer-tagline">
+                25 años de trayectoria en San Miguel de Tucumán.<br>
+                Matrícula CPI 1234.
+            </p>
+        </div>
+        <div class="footer-col">
+            <h4>Navegación</h4>
+            <a href="#propiedades">Propiedades</a>
+            <a href="#experiencia">Nosotros</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+        <div class="footer-col">
+            <h4>Contacto</h4>
+            <a href="#">25 de Mayo 450, Centro</a>
+            <a href="#">Yerba Buena, Tucumán</a>
+            <a href="tel:+543814306789">(0381) 430-6789</a>
+        </div>
+        <div class="footer-col">
+            <h4>Seguinos</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Facebook</a>
+            <a href="#">LinkedIn</a>
+        </div>
+    </footer>
+
+    <script>
+        // ==========================================
+        // ELGART PROPIEDADES - EXPERIENCIA CORPORATIVA
+        // ==========================================
+
+        // Loader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            const progress = document.getElementById('loaderProgress');
+            
+            let width = 0;
+            const interval = setInterval(() => {
+                width += Math.random() * 30;
+                if (width >= 100) {
+                    width = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loader.classList.add('hidden');
+                        initAnimations();
+                    }, 500);
+                }
+                progress.style.width = width + '%';
+            }, 200);
+        });
+
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+        let mouseX = 0, mouseY = 0;
+        let followerX = 0, followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursor.style.left = mouseX - 10 + 'px';
+            cursor.style.top = mouseY - 10 + 'px';
+        });
+
+        function animateFollower() {
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+            
+            follower.style.left = followerX - 20 + 'px';
+            follower.style.top = followerY - 20 + 'px';
+            
+            requestAnimationFrame(animateFollower);
+        }
+        animateFollower();
+
+        // Hover effects
+        document.querySelectorAll('a, button, .property-artwork').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Three.js Hero - Partículas azules y verdes
+        function initThreeJS() {
+            const canvas = document.getElementById('hero-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Partículas doradas/verdes flotantes
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 150;
+            const posArray = new Float32Array(particlesCount * 3);
+            const scaleArray = new Float32Array(particlesCount);
+            const colorArray = new Float32Array(particlesCount * 3);
+
+            const colorBlue = new THREE.Color(0x1a6ba0);
+            const colorLime = new THREE.Color(0xc4d600);
+
+            for(let i = 0; i < particlesCount; i++) {
+                const i3 = i * 3;
+                posArray[i3] = (Math.random() - 0.5) * 10;
+                posArray[i3+1] = (Math.random() - 0.5) * 10;
+                posArray[i3+2] = (Math.random() - 0.5) * 10;
+                scaleArray[i] = Math.random();
+                
+                // Mezclar colores corporativos
+                const mixedColor = Math.random() > 0.5 ? colorBlue : colorLime;
+                colorArray[i3] = mixedColor.r;
+                colorArray[i3+1] = mixedColor.g;
+                colorArray[i3+2] = mixedColor.b;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particlesGeometry.setAttribute('aScale', new THREE.BufferAttribute(scaleArray, 1));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+
+            const particlesMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    uTime: { value: 0 },
+                },
+                vertexShader: `
+                    uniform float uTime;
+                    attribute float aScale;
+                    attribute vec3 color;
+                    varying vec3 vColor;
+                    varying float vAlpha;
+                    void main() {
+                        vColor = color;
+                        vec3 pos = position;
+                        pos.y += sin(uTime * 0.5 + position.x) * 0.2;
+                        pos.x += cos(uTime * 0.3 + position.y) * 0.1;
+                        vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+                        gl_Position = projectionMatrix * mvPosition;
+                        gl_PointSize = (4.0 * aScale + 2.0) * (10.0 / -mvPosition.z);
+                        vAlpha = 0.6 + 0.4 * sin(uTime + aScale * 10.0);
+                    }
+                `,
+                fragmentShader: `
+                    varying vec3 vColor;
+                    varying float vAlpha;
+                    void main() {
+                        float dist = length(gl_PointCoord - vec2(0.5));
+                        if (dist > 0.5) discard;
+                        float glow = 1.0 - (dist * 2.0);
+                        glow = pow(glow, 2.0);
+                        gl_FragColor = vec4(vColor, vAlpha * glow);
+                    }
+                `,
+                transparent: true,
+                blending: THREE.AdditiveBlending
+            });
+
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            camera.position.z = 3;
+
+            let targetX = 0;
+            let targetY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                targetX = (e.clientX / window.innerWidth) * 2 - 1;
+                targetY = -(e.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            const clock = new THREE.Clock();
+
+            function animate() {
+                const elapsedTime = clock.getElapsedTime();
+                particlesMaterial.uniforms.uTime.value = elapsedTime;
+                
+                camera.position.x += (targetX * 0.5 - camera.position.x) * 0.05;
+                camera.position.y += (targetY * 0.5 - camera.position.y) * 0.05;
+                camera.lookAt(scene.position);
+
+                particlesMesh.rotation.y = elapsedTime * 0.05;
+                particlesMesh.rotation.x = elapsedTime * 0.02;
+
+                renderer.render(scene, camera);
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // GSAP Animations
+        function initAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero entrance
+            const tl = gsap.timeline();
+            tl.to('.hero-eyebrow', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' })
+              .to('.hero-title', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '-=0.6')
+              .to('.hero-subtitle', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
+              .to('.hero-cta', { opacity: 1, duration: 1, ease: 'power3.out' }, '-=0.6')
+              .to('.scroll-indicator', { opacity: 1, duration: 1 }, '-=0.4');
+
+            // Manifesto
+            gsap.to('.manifesto-text', {
+                scrollTrigger: {
+                    trigger: '.manifesto',
+                    start: 'top 80%',
+                    end: 'center center',
+                    scrub: 1
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1
+            });
+
+            // Horizontal scroll gallery
+            const galleryWrapper = document.getElementById('galleryWrapper');
+            const galleryContainer = document.getElementById('galleryContainer');
+            
+            if (galleryWrapper && galleryContainer) {
+                const scrollWidth = galleryContainer.scrollWidth - window.innerWidth;
+                
+                gsap.to(galleryContainer, {
+                    x: -scrollWidth,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: galleryWrapper,
+                        start: 'top top',
+                        end: () => `+=${scrollWidth}`,
+                        scrub: 1,
+                        pin: true,
+                        anticipatePin: 1
+                    }
+                });
+            }
+
+            // Experience section - activar items y cambiar color
+            const experienceItems = document.querySelectorAll('.experience-item');
+            
+            experienceItems.forEach((item, index) => {
+                ScrollTrigger.create({
+                    trigger: item,
+                    start: 'top center',
+                    end: 'bottom center',
+                    onEnter: () => item.classList.add('active'),
+                    onLeave: () => item.classList.remove('active'),
+                    onEnterBack: () => item.classList.add('active'),
+                    onLeaveBack: () => item.classList.remove('active')
+                });
+            });
+
+            // Parallax propiedades
+            document.querySelectorAll('.property-artwork').forEach(artwork => {
+                const img = artwork.querySelector('.property-image');
+                gsap.to(img, {
+                    yPercent: 10,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: artwork,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: true
+                    }
+                });
+            });
+        }
+
+        // Form handling
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('.submit-btn');
+            const originalText = btn.textContent;
+            
+            btn.textContent = 'Enviando...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.textContent = '¡Mensaje enviado!';
+                btn.style.background = 'var(--white)';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                    btn.style.background = '';
+                    e.target.reset();
+                }, 2000);
+            }, 1500);
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    gsap.to(window, {
+                        duration: 1.5,
+                        scrollTo: { y: target, offsetY: 0 },
+                        ease: 'power3.inOut'
+                    });
+                }
+            });
+        });
+
+        // Init Three.js
+        window.addEventListener('load', () => {
+            setTimeout(initThreeJS, 100);
+        });
+
+        // Hide scroll indicator
+        window.addEventListener('scroll', () => {
+            const indicator = document.querySelector('.scroll-indicator');
+            if (window.scrollY > 100) {
+                gsap.to(indicator, { opacity: 0, duration: 0.5 });
+            }
+        }, { passive: true });
+    </script>
+</body>
+</html>
