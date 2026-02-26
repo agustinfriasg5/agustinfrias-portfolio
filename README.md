@@ -20,7 +20,7 @@ Sistema completo para inmobiliaria líder en San Miguel de Tucumán:
 - Web con animaciones GSAP y diseño responsive
 - **Impacto:** +40% en captación de leads, automatización del 80% de consultas iniciales
 
-[Ver código](./projects/elgart-bot/) | [Demo en vivo](https://elgartpropiedades.com)
+[Ver código](./projects/elgart-bot/)
 
 ---
 
@@ -47,7 +47,7 @@ Plataforma de reservas para boliches de Av. Aconquija y Barrio Norte:
 - Lista digital vía WhatsApp
 - **Mercado objetivo:** 15 boliches grandes + 40 pequeños en Tucumán
 
-[Ver prototipo](./projects/reservas-vip/)
+[Proximamente](/)
 
 ---
 
@@ -103,10 +103,9 @@ Formas de cobro: Payoneer, Wise, PayPal, cripto.
 
 ## 📞 Contacto
 
-- **Email:** agustin@ejemplo.com
-- **WhatsApp:** +54 381 123-4567
-- **LinkedIn:** [linkedin.com/in/agustinfrias](https://linkedin.com/in/agustinfrias)
-- **Ubicación:** San Miguel de Tucumán, Argentina (UTC-3)
+- **Email:** agustinfrias2016@gmail.com.com
+- **WhatsApp:** +54 381 667 0592
+- **Ubicación:** San Miguel de Tucumán, Tucuman, Argentina (UTC-3)
 
 ---
 
