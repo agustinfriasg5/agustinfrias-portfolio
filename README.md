@@ -33,7 +33,7 @@ Rediseño completo con enfoque en accesibilidad y conversión:
 - Optimización mobile-first
 - **Impacto:** Reducción del 60% en tasa de rebote, +35% en solicitudes de cotización
 
-[Ver proyecto](./projects/norte-salud/)
+[Ver proyecto](./projects/norte-salud/norte-salud.html)
 
 ---
 
