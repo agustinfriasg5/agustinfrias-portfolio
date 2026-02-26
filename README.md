@@ -20,7 +20,7 @@ Sistema completo para inmobiliaria líder en San Miguel de Tucumán:
 - Web con animaciones GSAP y diseño responsive
 - **Impacto:** +40% en captación de leads, automatización del 80% de consultas iniciales
 
-[Ver código](./projects/elgart-bot/)
+[Ver código](./projects/elgart-propiedades.html/)
 
 ---
 
